@@ -54,7 +54,7 @@ class Battleship {
             console.log("Active ships: Aircraft Carrier, Battleship, Submarine, Destroyer, Patrol Boat")
             console.log("Enter coordinates for your shot :");
             var position = Battleship.ParsePosition(readline.question());
-            var isHit = gameController.CheckIsHit(this.enemyFleet, position);
+            var {isHit, name, is} = gameController.CheckIsHit(this.enemyFleet, position);
 
             telemetryWorker.postMessage({eventName: 'Player_ShootPosition', properties:  {Position: position.toString(), IsHit: isHit}});
 
