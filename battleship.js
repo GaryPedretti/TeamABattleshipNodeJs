@@ -46,9 +46,12 @@ class Battleship {
         console.log("   \\    \\_/");
         console.log("    \"\"\"\"");
 
+        var computerShoot=[];
+
         do {
             console.log();
             console.log("\n ------------------ Player, it's your turn ------------------");
+            console.log("Active ships: Aircraft Carrier, Battleship, Submarine, Destroyer, Patrol Boat")
             console.log("Enter coordinates for your shot :");
             var position = Battleship.ParsePosition(readline.question());
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
@@ -80,6 +83,7 @@ class Battleship {
             console.log(isHit ? cliColor.red( "Yeah ! Nice hit !") : cliColor.blue( "Miss"));
 
             var computerPos = this.GetRandomPosition();
+            
             var isHit = gameController.CheckIsHit(this.myFleet, computerPos);
 
             telemetryWorker.postMessage({eventName: 'Computer_ShootPosition', properties:  {Position: computerPos.toString(), IsHit: isHit}});
@@ -137,7 +141,7 @@ class Battleship {
     }
 
     InitializeMyFleet() {
-        this.myFleet = gameController.InitializeShips();
+        this.myFleet = x.InitializeShips();
 
         console.log("Please position your fleet (Game board size is from A to H and 1 to 8) :");
 
