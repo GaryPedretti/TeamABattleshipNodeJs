@@ -48,7 +48,7 @@ class Battleship {
 
         do {
             console.log();
-            console.log("Player, it's your turn");
+            console.log("\n ------------------ Player, it's your turn ------------------");
             console.log("Enter coordinates for your shot :");
             var position = Battleship.ParsePosition(readline.question());
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
@@ -58,14 +58,23 @@ class Battleship {
             if (isHit) {
                 beep();
 
-                console.log("                \\         .  ./");
-                console.log("              \\      .:\";'.:..\"   /");
-                console.log("                  (M^^.^~~:.'\").");
-                console.log("            -   (/  .    . . \\ \\)  -");
-                console.log("               ((| :. ~ ^  :. .|))");
-                console.log("            -   (\\- |  \\ /  |  /)  -");
-                console.log("                 -\\  \\     /  /-");
-                console.log("                   \\  \\   /  /");
+                console.log(cliColor.red("                \\         .  ./"));
+                console.log(cliColor.red("              \\      .:\";'.:..\"   /"));
+                console.log(cliColor.red("                  (M^^.^~~:.'\")."));
+                console.log(cliColor.red("            -   (/  .    . . \\ \\)  -"));
+                console.log(cliColor.red("               ((| :. ~ ^  :. .|))"));
+                console.log(cliColor.red("            -   (\\- |  \\ /  |  /)  -"));
+                console.log(cliColor.red("                 -\\  \\     /  /-"));
+                console.log(cliColor.red("                   \\  \\   /  /"));
+            } else {
+                console.log(cliColor.blue("                \\         .  ./"));
+                console.log(cliColor.blue("              \\      .:\";'.:..\"   /"));
+                console.log(cliColor.blue("                  (M^^.^~~:.'\")."));
+                console.log(cliColor.blue("            -   (/  .    . . \\ \\)  -"));
+                console.log(cliColor.blue("               ((| :. ~ ^  :. .|))"));
+                console.log(cliColor.blue("            -   (\\- |  \\ /  |  /)  -"));
+                console.log(cliColor.blue("                 -\\  \\     /  /-"));
+                console.log(cliColor.blue("                   \\  \\   /  /"));
             }
 
             console.log(isHit ? "Yeah ! Nice hit !" : "Miss");
@@ -75,19 +84,28 @@ class Battleship {
 
             telemetryWorker.postMessage({eventName: 'Computer_ShootPosition', properties:  {Position: computerPos.toString(), IsHit: isHit}});
 
-            console.log();
+            console.log('\n ------------------ Computer turn ------------------');
             console.log(`Computer shot in ${computerPos.column}${computerPos.row} and ` + (isHit ? `has hit your ship !` : `miss`));
             if (isHit) {
                 beep();
 
-                console.log("                \\         .  ./");
-                console.log("              \\      .:\";'.:..\"   /");
-                console.log("                  (M^^.^~~:.'\").");
-                console.log("            -   (/  .    . . \\ \\)  -");
-                console.log("               ((| :. ~ ^  :. .|))");
-                console.log("            -   (\\- |  \\ /  |  /)  -");
-                console.log("                 -\\  \\     /  /-");
-                console.log("                   \\  \\   /  /");
+                console.log(cliColor.red("                \\         .  ./"));
+                console.log(cliColor.red("              \\      .:\";'.:..\"   /"));
+                console.log(cliColor.red("                  (M^^.^~~:.'\")."));
+                console.log(cliColor.red("            -   (/  .    . . \\ \\)  -"));
+                console.log(cliColor.red("               ((| :. ~ ^  :. .|))"));
+                console.log(cliColor.red("            -   (\\- |  \\ /  |  /)  -"));
+                console.log(cliColor.red("                 -\\  \\     /  /-"));
+                console.log(cliColor.red("                   \\  \\   /  /"));
+            } else {
+                console.log(cliColor.blue("                \\         .  ./"));
+                console.log(cliColor.blue("              \\      .:\";'.:..\"   /"));
+                console.log(cliColor.blue("                  (M^^.^~~:.'\")."));
+                console.log(cliColor.blue("            -   (/  .    . . \\ \\)  -"));
+                console.log(cliColor.blue("               ((| :. ~ ^  :. .|))"));
+                console.log(cliColor.blue("            -   (\\- |  \\ /  |  /)  -"));
+                console.log(cliColor.blue("                 -\\  \\     /  /-"));
+                console.log(cliColor.blue("                   \\  \\   /  /"));
             }
         }
         while (true);
