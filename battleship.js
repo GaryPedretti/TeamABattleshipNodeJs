@@ -46,11 +46,10 @@ class Battleship {
         console.log("   \\    \\_/");
         console.log("    \"\"\"\"");
 
-        var computerShoot=[];
 
         do {
             console.log();
-            console.log("\n ------------------ Player, it's your turn ------------------");
+            console.log("\n ----------------- Player, it's your turn ----------------");
             console.log("Active ships: "+ this.ActiveBoats())
             console.log("Enter coordinates for your shot :");
             var position = Battleship.ParsePosition(readline.question());
@@ -91,7 +90,7 @@ class Battleship {
 
             telemetryWorker.postMessage({eventName: 'Computer_ShootPosition', properties:  {Position: computerPos.toString(), IsHit: shipInformationComp.isHit}});
 
-            console.log('\n ------------------ Computer turn ------------------');
+            console.log('\n ----------------- Computer turn -------------------------');
             if (shipInformationComp.isHit) {
                 beep();
 
