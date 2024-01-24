@@ -77,7 +77,7 @@ class Battleship {
                 console.log(cliColor.blue("                   \\  \\   /  /"));
             }
 
-            console.log(isHit ? "Yeah ! Nice hit !" : "Miss");
+            console.log(isHit ? cliColor.red( "Yeah ! Nice hit !") : cliColor.blue( "Miss"));
 
             var computerPos = this.GetRandomPosition();
             var isHit = gameController.CheckIsHit(this.myFleet, computerPos);
@@ -85,7 +85,6 @@ class Battleship {
             telemetryWorker.postMessage({eventName: 'Computer_ShootPosition', properties:  {Position: computerPos.toString(), IsHit: isHit}});
 
             console.log('\n ------------------ Computer turn ------------------');
-            console.log(`Computer shot in ${computerPos.column}${computerPos.row} and ` + (isHit ? `has hit your ship !` : `miss`));
             if (isHit) {
                 beep();
 
@@ -107,6 +106,11 @@ class Battleship {
                 console.log(cliColor.blue("                 -\\  \\     /  /-"));
                 console.log(cliColor.blue("                   \\  \\   /  /"));
             }
+            console.log(
+                (isHit ? cliColor.red(`\n Computer shot in ${computerPos.column}${computerPos.row} and `): 
+                cliColor.blue(`\n Computer shot in ${computerPos.column}${computerPos.row} and `))
+                + (isHit ? cliColor.red(`has hit your ship !`) : cliColor.blue(`miss`))
+                );
         }
         while (true);
     }
