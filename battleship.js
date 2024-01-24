@@ -51,14 +51,14 @@ class Battleship {
         do {
             console.log();
             console.log("\n ------------------ Player, it's your turn ------------------");
-            console.log("Active ships: Aircraft Carrier, Battleship, Submarine, Destroyer, Patrol Boat")
+            console.log("Active ships: "+ this.ActiveBoats())
             console.log("Enter coordinates for your shot :");
             var position = Battleship.ParsePosition(readline.question());
-            var {isHit, name, is} = gameController.CheckIsHit(this.enemyFleet, position);
+            var shipInformation = gameController.CheckIsHit(this.enemyFleet, position);
+            
+            telemetryWorker.postMessage({eventName: 'Player_ShootPosition', properties:  {Position: position.toString(), IsHit: shipInformation.isHit}});
 
-            telemetryWorker.postMessage({eventName: 'Player_ShootPosition', properties:  {Position: position.toString(), IsHit: isHit}});
-
-            if (isHit) {
+            if (shipInformation.isHit) {
                 beep();
 
                 console.log(cliColor.red("                \\         .  ./"));
@@ -80,16 +80,19 @@ class Battleship {
                 console.log(cliColor.blue("                   \\  \\   /  /"));
             }
 
-            console.log(isHit ? cliColor.red( "Yeah ! Nice hit !") : cliColor.blue( "Miss"));
+            console.log(shipInformation.isHit ? cliColor.red( "Yeah ! Nice hit !") : cliColor.blue( "Miss"));
+            if(shipInformation.isHit && shipInformation.ship.isSunk()){
+                console.log("\n"+ shipInformation.ship.name + " is sunk! \n")
+            }
 
             var computerPos = this.GetRandomPosition();
             
-            var isHit = gameController.CheckIsHit(this.myFleet, computerPos);
+            var shipInformationComp = gameController.CheckIsHit(this.myFleet, computerPos);
 
-            telemetryWorker.postMessage({eventName: 'Computer_ShootPosition', properties:  {Position: computerPos.toString(), IsHit: isHit}});
+            telemetryWorker.postMessage({eventName: 'Computer_ShootPosition', properties:  {Position: computerPos.toString(), IsHit: shipInformationComp.isHit}});
 
             console.log('\n ------------------ Computer turn ------------------');
-            if (isHit) {
+            if (shipInformationComp.isHit) {
                 beep();
 
                 console.log(cliColor.red("                \\         .  ./"));
@@ -111,10 +114,13 @@ class Battleship {
                 console.log(cliColor.blue("                   \\  \\   /  /"));
             }
             console.log(
-                (isHit ? cliColor.red(`\n Computer shot in ${computerPos.column}${computerPos.row} and `): 
+                (shipInformationComp.isHit ? cliColor.red(`\n Computer shot in ${computerPos.column}${computerPos.row} and `): 
                 cliColor.blue(`\n Computer shot in ${computerPos.column}${computerPos.row} and `))
-                + (isHit ? cliColor.red(`has hit your ship !`) : cliColor.blue(`miss`))
+                + (shipInformationComp.isHit ? cliColor.red(`has hit your ship !`) : cliColor.blue(`miss`))
                 );
+            if(shipInformationComp.isHit && shipInformationComp.ship.isSunk()){
+                console.log("\n"+ shipInformationComp.ship.name + " is sunk! \n")
+            }
         }
         while (true);
     }
@@ -123,6 +129,16 @@ class Battleship {
         var letter = letters.get(input.toUpperCase().substring(0, 1));
         var number = parseInt(input.substring(1, 2), 10);
         return new position(letter, number);
+    }
+
+    ActiveBoats(){
+        var boatsActive = "";
+        this.enemyFleet.forEach(boat => {
+            if(!boat.isSunk()){
+                boatsActive = boatsActive + boat.name + ", ";
+            }
+        })
+        return boatsActive;
     }
 
     GetRandomPosition() {
@@ -141,10 +157,31 @@ class Battleship {
     }
 
     InitializeMyFleet() {
-        this.myFleet = x.InitializeShips();
+        this.myFleet = gameController.InitializeShips();
 
         console.log("Please position your fleet (Game board size is from A to H and 1 to 8) :");
 
+        // this.myFleet[0].addPosition(new position(letters.B, 4));
+        // this.myFleet[0].addPosition(new position(letters.B, 5));
+        // this.myFleet[0].addPosition(new position(letters.B, 6));
+        // this.myFleet[0].addPosition(new position(letters.B, 7));
+        // this.myFleet[0].addPosition(new position(letters.B, 8));
+
+        // this.myFleet[1].addPosition(new position(letters.E, 6));
+        // this.myFleet[1].addPosition(new position(letters.E, 7));
+        // this.myFleet[1].addPosition(new position(letters.E, 8));
+        // this.myFleet[1].addPosition(new position(letters.E, 9));
+
+        // this.myFleet[2].addPosition(new position(letters.A, 3));
+        // this.myFleet[2].addPosition(new position(letters.B, 3));
+        // this.myFleet[2].addPosition(new position(letters.C, 3));
+
+        // this.myFleet[3].addPosition(new position(letters.F, 8));
+        // this.myFleet[3].addPosition(new position(letters.G, 8));
+        // this.myFleet[3].addPosition(new position(letters.H, 8));
+
+        // this.myFleet[4].addPosition(new position(letters.C, 5));
+        // this.myFleet[4].addPosition(new position(letters.C, 6));
         this.myFleet.forEach(function (ship) {
             console.log();
             console.log(`Please enter the positions for the ${ship.name} (size: ${ship.size})`);
