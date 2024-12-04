@@ -1,14 +1,18 @@
 const { Worker, isMainThread } = require('worker_threads');
 const readline = require('readline-sync');
 const gameController = require("./GameController/gameController.js");
+const gridView = require("./GameController/gridViewController.js");
 const cliColor = require('cli-color');
 const beep = require('beepbeep');
 const position = require("./GameController/position.js");
 const letters = require("./GameController/letters.js");
+
+
 let telemetryWorker;
 
 class Battleship {
     start() {
+        //gridView.printTitleRow(null, null);
         telemetryWorker = new Worker("./TelemetryClient/telemetryClient.js");   
 
         console.log("Starting...");
@@ -47,6 +51,10 @@ class Battleship {
         console.log("    \"\"\"\"");
 
         do {
+            console.clear();
+            console.log(cliColor.magenta("--- My Fleet ---"));
+            gridView.printGridWithBoats(this.myFleet, null);
+
             console.log();
             console.log("Player, it's your turn");
             console.log("Enter coordinates for your shot :");
