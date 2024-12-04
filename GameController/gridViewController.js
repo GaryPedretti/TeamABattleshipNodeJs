@@ -12,36 +12,57 @@ class GridViewController {
         this.printTitleRow();
 
         for (let line = 1; line <= totalLines; line++) {
-            this.printRow(shipArray, line, missArray);
+            this.printRow(shipArray, line, missArray, true);
         }
-
     }
 
-    static printRow(shipArray, lineNumber, missArray)
+    static printGridWithoutBoats(shipArray, missArray) {
+        this.printTitleRow();
+
+        for (let line = 1; line <= totalLines; line++) {
+            this.printRow(shipArray, line, missArray, false);
+        }
+    }
+
+    static printRow(shipArray, lineNumber, missArray, showShips)
     {
-        
         var rowDesignation = " " + cliColor.white(lineNumber) + " ";
         var dashSeparatorRow = cliColor.blue("---");
         var lineOutput = rowDesignation;
 
+        //Check for ships or hits.
         for (let column = 1; column <= totalColumns; column++) {
             let currentPosition = new Position(column, lineNumber);
-            let isShipOnPosition = false;
-            let shipOnPosition = null;
+            let positionIndicator = " ";
 
             //Check for any ships at this position;
             for (let shipNumber = 0; shipNumber < shipArray.length; shipNumber++) {
                 let currentShip = shipArray[shipNumber];
-                
-                if (currentShip.isOnPosition(currentPosition))
-                {
-                    isShipOnPosition = true;
-                    shipOnPosition = currentShip;
+                let currentPositionStatus = currentShip.whatIsOnPosition(currentPosition);
+
+                if (currentPositionStatus == 2) {
+                    positionIndicator = cliColor.red("X");
+                    break;
+                } else if (currentPositionStatus == 1) {
+                    if (showShips)
+                        positionIndicator = cliColor.whiteBright(currentShip.indicator);
+                    break;
                 }
             }
+            
+            //Check for misses.
+            if (missArray.length > 0) {
+                for (let miss = 0; miss <= missArray.length; miss++) {
+                    if (currentPosition.equals(missArray[miss])) {
+                        positionIndicator = cliColor.yellow("O");
+                        break;
+                    }
+                }
+            }
+            
 
-            //Either put an indicator here for the ship or nothing at all -- outputs 4 spaces.
-            lineOutput += cliColor.blue("| ") + (isShipOnPosition ? cliColor.whiteBright(shipOnPosition.indicator) : " ") + " ";
+            //Put the proper indicator here for whatever exists on each col position.
+            lineOutput += cliColor.blue("| ") + positionIndicator + " ";
         }
 
         //cap lineOutput with final |
