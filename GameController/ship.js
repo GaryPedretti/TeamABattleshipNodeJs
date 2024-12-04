@@ -1,4 +1,5 @@
 class Ship {
+    
     constructor(name, size, color) {
         this.indicator = name.charAt(0);
         this.name = name;
@@ -13,17 +14,31 @@ class Ship {
         this.positions.push(position);
     }
 
-    isOnPosition(testedPosition) {
+    //Returns 0: No hit or boat.
+    //Returns 1: No hit + boat.
+    //Returns 2: Hit
+    whatIsOnPosition(testedPosition) {
+        for (let i = 0; i < this.hits.length; i++) {
+            let currentPosition = this.hits[i];
+
+            if (currentPosition.equals(testedPosition)) {
+                return 2;
+            }
+        }
+
         for (let i = 0; i < this.positions.length; i++)
         {
             let currentPosition = this.positions[i];
 
-            if (testedPosition.row == currentPosition.row && testedPosition.column == currentPosition.column)
-                return true;
+            if (currentPosition.equals(testedPosition)) {
+                return 1;
+            }   
         }
 
-        return false;
+        return 0;
     }
+
+    isHitOnPosition
 
     addHit(position) {
         this.hits.forEach( hit => {
