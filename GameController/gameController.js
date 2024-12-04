@@ -21,7 +21,11 @@ class GameController {
         ships.forEach(function (ship) {
             ship.positions.forEach(position => {
                 if (position.row == shot.row && position.column == shot.column)
+                {
+                    //console.log("HIT--- jwm")
+                    ship.addHit(position);
                     returnvalue = true;
+                }
             });
         });
         return returnvalue;
