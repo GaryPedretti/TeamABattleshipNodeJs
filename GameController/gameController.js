@@ -9,7 +9,37 @@ class GameController {
             new Ship("Destroyer", 3, colors.Yellow),
             new Ship("Patrol Boat", 2, colors.Orange)
         ];
+        this.myMisses = [];
+        this.enemyMisses = [];
         return ships;
+    }
+
+    static addMyMiss(position) {
+        console.log("addMyMiss");
+
+        this.myMisses.forEach( miss => {
+            if( miss === position )
+            {
+                console.log("Duplicate miss found");
+                return;
+            }
+        });
+        console.log("My Miss pushed")
+        this.myMisses.push(position);
+    }
+
+    static addEnemyMiss(position) {
+        console.log("addEnemyMiss");
+
+        this.enemyMisses.forEach( miss => {
+            if( miss === position )
+            {
+                console.log("Enemy Duplicate miss found");
+                return;
+            }
+        });
+        console.log("Enemy Miss pushed")
+        this.enemyMisses.push(position);
     }
 
     static CheckIsHit(ships, shot) {

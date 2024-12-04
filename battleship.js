@@ -38,7 +38,7 @@ class Battleship {
     }
 
     StartGame() {
-        console.clear();
+        //console.clear();
         console.log("                  __");
         console.log("                 /  \\");
         console.log("           .-.  |    |");
@@ -51,7 +51,7 @@ class Battleship {
         console.log("    \"\"\"\"");
 
         do {
-            console.clear();
+            //console.clear();
             console.log(cliColor.magenta("--- My Fleet ---"));
             gridView.printGridWithBoats(this.myFleet, null);
 
@@ -63,6 +63,7 @@ class Battleship {
 
             telemetryWorker.postMessage({eventName: 'Player_ShootPosition', properties:  {Position: position.toString(), IsHit: isHit}});
 
+            console.log("debug 1");
             if (isHit) {
                 beep();
 
@@ -75,6 +76,10 @@ class Battleship {
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
             }
+            else{
+                console.log("debug 2");
+                gameController.addMyMiss(position);
+            }
 
             console.log(isHit ? "Yeah ! Nice hit !" : "Miss");
 
@@ -85,6 +90,7 @@ class Battleship {
 
             console.log();
             console.log(`Computer shot in ${computerPos.column}${computerPos.row} and ` + (isHit ? `has hit your ship !` : `miss`));
+            console.log("debug 3");
             if (isHit) {
                 beep();
 
@@ -96,6 +102,10 @@ class Battleship {
                 console.log("            -   (\\- |  \\ /  |  /)  -");
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
+            }
+            else{
+                console.log("debug 4");
+                gameController.addEnemyMiss(position);
             }
         }
         while (true);
