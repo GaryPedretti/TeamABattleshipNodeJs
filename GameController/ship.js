@@ -24,7 +24,7 @@ class Ship {
         this.hits.push(position);
 
         if( this.hits.length == this.size ){
-            console.log(`${ship.name} Sunk` )
+            console.log(`${this.name} Sunk` )
             this.sunk = true;
         }
     }
