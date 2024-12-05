@@ -1,4 +1,7 @@
 class GameController {
+    static myMisses = [];
+    static enemyMisses = [];
+
     static InitializeShips() {
         var colors = require("cli-color");
         const Ship = require("./ship.js");
@@ -9,39 +12,40 @@ class GameController {
             new Ship("Destroyer", 3, colors.Yellow),
             new Ship("Patrol Boat", 2, colors.Orange)
         ];
-        this.myMisses = [];
-        this.enemyMisses = [];
+
         return ships;
     }
 
     static addMyMiss(position) {
-        if( this.myMisses.includes(position) )
+        /*if( this.myMisses.includes(position) )
         {
             console.log("Duplicate miss found");
             return;
-        }
-        // this.myMisses.forEach( miss => {
-        //     if( position.equals(miss) ) {
-        //         console.log("Duplicate miss found");
-        //         return;
-        //     }
-        // });
+        }*/
+
+        this.myMisses.forEach( miss => {
+            if( position.equals(miss) ) {
+                console.log("Duplicate miss found");
+                return;
+            }
+        });
         console.log("My Miss pushed")
         this.myMisses.push(position);
     }
 
     static addEnemyMiss(position) {
-        if( this.enemyMisses.includes(position) )
+        /*if( this.enemyMisses.includes(position) )
         {
             console.log("Enemy Duplicate miss found");
             return;
-        }
-        // this.enemyMisses.forEach( miss => {
-        //     if( position.equals(miss) ) {
-        //         console.log("Enemy Duplicate miss found");
-        //         return;
-        //     }
-        // });
+        }*/
+            
+        this.enemyMisses.forEach( miss => {
+            if( position.equals(miss) ) {
+                console.log("Enemy Duplicate miss found");
+                return;
+            }
+        });
         console.log("Enemy Miss pushed")
         this.enemyMisses.push(position);
     }
