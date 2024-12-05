@@ -54,6 +54,22 @@ class GameController {
     static isShipValid(ship) {
         return ship.positions.length == ship.size;
     }
+
+
+    static isFleetSunk( fleet )
+    {
+        let fleetSunk = 0;
+        fleet.forEach( ship => {
+            if( ship.sunk )
+                fleetSunk++;
+        });
+        if( fleet.length == fleetSunk )
+        {
+            return true;
+        }    
+        return false;
+    }
+
 }
 
 module.exports = GameController;

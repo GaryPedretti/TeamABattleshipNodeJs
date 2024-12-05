@@ -88,16 +88,11 @@ class Battleship {
 
                 console.log( "Yeah ! Nice hit !" );
 
-                let winner = 0;
-                this.enemyFleet.forEach( ship => {
-                    if( ship.sunk )
-                        winner++;
-                });
-                if( this.enemyFleet.length == winner )
+                if( gameController.isFleetSunk(this.enemyFleet) )
                 {
                     console.log( "Congratulations!!! You Won!!!" );
                     break;
-                }    
+                }
             }
             else{
                 console.log( "Miss" );
@@ -124,26 +119,22 @@ class Battleship {
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
 
-                let loser = 0;
-                this.myFleet.forEach( ship => {
-                    if( ship.sunk )
-                        loser++;
-                });
-                if( this.myFleet.length == loser )
+                if( gameController.isFleetSunk(this.myFleet) )
                 {
                     console.log( "To Bad, you lost..." );
                     break;
-                }    
+                }
             }
             else {
                 gameController.addEnemyMiss(computerPos);
             }
 
-            console.log();
-            console.log();
-            readline.question("Hit Enter to Continue");
+            //console.log();
+            //console.log();
+            //readline.question("Hit Enter to Continue");
         }
         while (true);
+        exit(0);
     }
 
     static ParsePosition(input) {
