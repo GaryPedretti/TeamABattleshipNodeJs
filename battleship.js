@@ -40,7 +40,7 @@ class Battleship {
     }
 
     StartGame() {
-        console.clear();
+
         console.log("                  __");
         console.log("                 /  \\");
         console.log("           .-.  |    |");
@@ -94,6 +94,7 @@ class Battleship {
                 }
             }
             else{
+                console.log("Miss!")
                 gameController.addMyMiss(position);
             }
 
@@ -127,9 +128,9 @@ class Battleship {
                 gameController.addEnemyMiss(computerPos);
             }
 
-            //console.log();
-            //console.log();
-            //readline.question("Hit Enter to Continue");
+            console.log();
+            console.log();
+            readline.question("Hit Enter to Continue");
         }
         while (true);
         exit(0);
@@ -153,9 +154,9 @@ class Battleship {
 
     InitializeGame() {
         //For test purposes only. Matches enemy fleet.
-        this.InitializeMyTestFleet();
+        //this.InitializeMyTestFleet();
         
-        //this.InitializeMyFleet();
+        this.InitializeMyFleet();
         this.InitializeEnemyFleet();
     }
 
