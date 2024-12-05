@@ -15,29 +15,33 @@ class GameController {
     }
 
     static addMyMiss(position) {
-        console.log("addMyMiss");
-
-        this.myMisses.forEach( miss => {
-            if( miss === position )
-            {
-                console.log("Duplicate miss found");
-                return;
-            }
-        });
+        if( this.myMisses.includes(position) )
+        {
+            console.log("Duplicate miss found");
+            return;
+        }
+        // this.myMisses.forEach( miss => {
+        //     if( position.equals(miss) ) {
+        //         console.log("Duplicate miss found");
+        //         return;
+        //     }
+        // });
         console.log("My Miss pushed")
         this.myMisses.push(position);
     }
 
     static addEnemyMiss(position) {
-        console.log("addEnemyMiss");
-
-        this.enemyMisses.forEach( miss => {
-            if( miss === position )
-            {
-                console.log("Enemy Duplicate miss found");
-                return;
-            }
-        });
+        if( this.enemyMisses.includes(position) )
+        {
+            console.log("Enemy Duplicate miss found");
+            return;
+        }
+        // this.enemyMisses.forEach( miss => {
+        //     if( position.equals(miss) ) {
+        //         console.log("Enemy Duplicate miss found");
+        //         return;
+        //     }
+        // });
         console.log("Enemy Miss pushed")
         this.enemyMisses.push(position);
     }

@@ -6,6 +6,7 @@ const cliColor = require('cli-color');
 const beep = require('beepbeep');
 const position = require("./GameController/position.js");
 const letters = require("./GameController/letters.js");
+const GridViewController = require('./GameController/gridViewController.js');
 
 
 let telemetryWorker;
@@ -51,14 +52,14 @@ class Battleship {
         console.log("    \"\"\"\"");
 
         do {
-            console.clear();
+            //console.clear();
 
             console.log(cliColor.magenta("--- Enemy Fleet ---"));
-            gridView.printGridWithoutBoats(this.enemyFleet, []);
+            gridView.printGridWithoutBoats(this.enemyFleet, gameController.myMisses);
             console.log(" ");
 
             console.log(cliColor.magenta("--- My Fleet ---"));
-            gridView.printGridWithBoats(this.myFleet, []);
+            gridView.printGridWithBoats(this.myFleet, gameController.enemyMisses);
 
             console.log();
             console.log("Player, it's your turn");
@@ -107,7 +108,7 @@ class Battleship {
                 console.log("                   \\  \\   /  /");
             }
             else {
-                gameController.addEnemyMiss(position);
+                gameController.addEnemyMiss(computerPos);
             }
 
             console.log();
@@ -135,9 +136,9 @@ class Battleship {
 
     InitializeGame() {
         //For test purposes only. Matches enemy fleet.
-        //this.InitializeMyTestFleet();
+        this.InitializeMyTestFleet();
         
-        this.InitializeMyFleet();
+        //this.InitializeMyFleet();
         this.InitializeEnemyFleet();
     }
 
@@ -167,10 +168,10 @@ class Battleship {
         this.myFleet[0].addPosition(new position(letters.B, 7));
         this.myFleet[0].addPosition(new position(letters.B, 8));
 
+        this.myFleet[1].addPosition(new position(letters.E, 5));
         this.myFleet[1].addPosition(new position(letters.E, 6));
         this.myFleet[1].addPosition(new position(letters.E, 7));
         this.myFleet[1].addPosition(new position(letters.E, 8));
-        this.myFleet[1].addPosition(new position(letters.E, 9));
 
         this.myFleet[2].addPosition(new position(letters.A, 3));
         this.myFleet[2].addPosition(new position(letters.B, 3));
