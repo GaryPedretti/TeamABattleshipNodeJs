@@ -1,4 +1,7 @@
 class GameController {
+    static myMisses = [];
+    static enemyMisses = [];
+
     static InitializeShips() {
         var colors = require("cli-color");
         const Ship = require("./ship.js");
@@ -9,7 +12,24 @@ class GameController {
             new Ship("Destroyer", 3, colors.Yellow),
             new Ship("Patrol Boat", 2, colors.Orange)
         ];
+
         return ships;
+    }
+
+    static addMyMiss(position) {
+        if( this.myMisses.includes(position) ) {
+            return;
+        }
+
+        this.myMisses.push(position);
+    }
+
+    static addEnemyMiss(position) {
+        if( this.enemyMisses.includes(position) ) {
+            return;
+        }
+
+        this.enemyMisses.push(position);
     }
 
     static CheckIsHit(ships, shot) {

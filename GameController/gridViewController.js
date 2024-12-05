@@ -52,12 +52,14 @@ class GridViewController {
             
             //Check for misses.
             if (missArray.length > 0) {
-                for (let miss = 0; miss <= missArray.length; miss++) {
-                    if (currentPosition.equals(missArray[miss])) {
+                missArray.forEach( miss => {
+                    //console.log(`current: ${currentPosition.toString()}` );
+                    //console.log(`miss: ${miss.toString()}` );
+                    if (currentPosition.equals(miss)) {
                         positionIndicator = cliColor.yellow("O");
-                        break;
+                        return;
                     }
-                }
+                });
             }
             
 

@@ -41,13 +41,18 @@ class Ship {
     isHitOnPosition
 
     addHit(position) {
-        this.hits.forEach( hit => {
-            if( hit == position )
-            {
-                console.log("Duplicate found")
-                return;
-            }
-        });
+        if( this.hits.includes(position) )
+        {
+            console.log("Duplicate found")
+            return;
+        }
+        // this.hits.forEach( hit => {
+        //     if( hit == position )
+        //     {
+        //         console.log("Duplicate found")
+        //         return;
+        //     }
+        // });
         console.log("Hit pushed")
         this.hits.push(position);
 

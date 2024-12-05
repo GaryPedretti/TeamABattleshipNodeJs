@@ -6,6 +6,8 @@ const cliColor = require('cli-color');
 const beep = require('beepbeep');
 const position = require("./GameController/position.js");
 const letters = require("./GameController/letters.js");
+const GridViewController = require('./GameController/gridViewController.js');
+const { exit } = require('process');
 
 
 let telemetryWorker;
@@ -38,7 +40,7 @@ class Battleship {
     }
 
     StartGame() {
-        console.clear();
+        //console.clear();
         console.log("                  __");
         console.log("                 /  \\");
         console.log("           .-.  |    |");
@@ -51,14 +53,18 @@ class Battleship {
         console.log("    \"\"\"\"");
 
         do {
-            console.clear();
+            //console.clear();
 
             console.log(cliColor.magenta("--- Enemy Fleet ---"));
-            gridView.printGridWithoutBoats(this.enemyFleet, []);
+            gridView.printGridWithoutBoats(this.enemyFleet, gameController.myMisses);
+            this.enemyFleet.forEach( ship => {
+                if( ship.sunk )
+                    console.log( cliColor.red( `Enemy ${ship.name} sunk!` ) );
+            });
             console.log(" ");
 
             console.log(cliColor.magenta("--- My Fleet ---"));
-            gridView.printGridWithBoats(this.myFleet, []);
+            gridView.printGridWithBoats(this.myFleet, gameController.enemyMisses);
 
             console.log();
             console.log("Player, it's your turn");
@@ -79,9 +85,24 @@ class Battleship {
                 console.log("            -   (\\- |  \\ /  |  /)  -");
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
-            }
 
-            console.log(isHit ? "Yeah ! Nice hit !" : "Miss");
+                console.log( "Yeah ! Nice hit !" );
+
+                let winner = 0;
+                this.enemyFleet.forEach( ship => {
+                    if( ship.sunk )
+                        winner++;
+                });
+                if( this.enemyFleet.length == winner )
+                {
+                    console.log( "Congratulations!!! You Won!!!" );
+                    break;
+                }    
+            }
+            else{
+                console.log( "Miss" );
+                gameController.addMyMiss(position);
+            }
 
             var computerPos = this.GetRandomPosition();
             var isHit = gameController.CheckIsHit(this.myFleet, computerPos);
@@ -90,6 +111,7 @@ class Battleship {
 
             console.log();
             console.log(`Computer shot in ${computerPos.column}${computerPos.row} and ` + (isHit ? `has hit your ship !` : `miss`));
+
             if (isHit) {
                 beep();
 
@@ -101,7 +123,22 @@ class Battleship {
                 console.log("            -   (\\- |  \\ /  |  /)  -");
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
+
+                let loser = 0;
+                this.myFleet.forEach( ship => {
+                    if( ship.sunk )
+                        loser++;
+                });
+                if( this.myFleet.length == loser )
+                {
+                    console.log( "To Bad, you lost..." );
+                    break;
+                }    
             }
+            else {
+                gameController.addEnemyMiss(computerPos);
+            }
+
             console.log();
             console.log();
             readline.question("Hit Enter to Continue");
@@ -127,9 +164,9 @@ class Battleship {
 
     InitializeGame() {
         //For test purposes only. Matches enemy fleet.
-        //this.InitializeMyTestFleet();
+        this.InitializeMyTestFleet();
         
-        this.InitializeMyFleet();
+        //this.InitializeMyFleet();
         this.InitializeEnemyFleet();
     }
 
@@ -159,10 +196,10 @@ class Battleship {
         this.myFleet[0].addPosition(new position(letters.B, 7));
         this.myFleet[0].addPosition(new position(letters.B, 8));
 
+        this.myFleet[1].addPosition(new position(letters.E, 5));
         this.myFleet[1].addPosition(new position(letters.E, 6));
         this.myFleet[1].addPosition(new position(letters.E, 7));
         this.myFleet[1].addPosition(new position(letters.E, 8));
-        this.myFleet[1].addPosition(new position(letters.E, 9));
 
         this.myFleet[2].addPosition(new position(letters.A, 3));
         this.myFleet[2].addPosition(new position(letters.B, 3));
@@ -185,10 +222,10 @@ class Battleship {
         this.enemyFleet[0].addPosition(new position(letters.B, 7));
         this.enemyFleet[0].addPosition(new position(letters.B, 8));
 
+        this.enemyFleet[1].addPosition(new position(letters.E, 5));
         this.enemyFleet[1].addPosition(new position(letters.E, 6));
         this.enemyFleet[1].addPosition(new position(letters.E, 7));
         this.enemyFleet[1].addPosition(new position(letters.E, 8));
-        this.enemyFleet[1].addPosition(new position(letters.E, 9));
 
         this.enemyFleet[2].addPosition(new position(letters.A, 3));
         this.enemyFleet[2].addPosition(new position(letters.B, 3));
