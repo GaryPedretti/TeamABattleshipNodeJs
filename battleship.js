@@ -40,7 +40,7 @@ class Battleship {
     }
 
     StartGame() {
-        console.clear();
+        //console.clear();
         console.log("                  __");
         console.log("                 /  \\");
         console.log("           .-.  |    |");
