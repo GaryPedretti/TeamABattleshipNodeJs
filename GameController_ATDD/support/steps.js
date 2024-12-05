@@ -10,8 +10,8 @@ var actual;
 
 defineParameterType({name: "bool", regexp: /"([^"]*)"/, transformer(text) {return text.toLowerCase()=="true"}});
 
-Given("I have a {int} ship with {int} positions", function(size, positions){
-  ship = new shipDef();
+Given("I have a {int} ship with {int} positions called {string}", function(size, positions, name){
+  ship = new shipDef(name);
   ship.size = size;
   for(var i = 1; i <= positions; i++) {
     ship.addPosition(new position(letters.A, i))

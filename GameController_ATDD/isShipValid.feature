@@ -5,12 +5,12 @@ Feature: IsShipValid
 
 @debug
 Scenario: Valid ship placement
-	Given I have a 5 ship with 5 positions
+	Given I have a 5 ship with 5 positions called "Battleship"
 	When I check if the ship is valid
 	Then the result should be "true"
 
 @debug
 Scenario: Invalid ship placement
-	Given I have a 5 ship with 4 positions
+	Given I have a 5 ship with 4 positions called "Battleship"
 	When I check if the ship is valid
 	Then the result should be "false"
