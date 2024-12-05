@@ -7,6 +7,7 @@ const beep = require('beepbeep');
 const position = require("./GameController/position.js");
 const letters = require("./GameController/letters.js");
 const GridViewController = require('./GameController/gridViewController.js');
+const { exit } = require('process');
 
 
 let telemetryWorker;
@@ -56,6 +57,10 @@ class Battleship {
 
             console.log(cliColor.magenta("--- Enemy Fleet ---"));
             gridView.printGridWithoutBoats(this.enemyFleet, gameController.myMisses);
+            this.enemyFleet.forEach( ship => {
+                if( ship.sunk )
+                    console.log( cliColor.red( `Enemy ${ship.name} sunk!` ) );
+            });
             console.log(" ");
 
             console.log(cliColor.magenta("--- My Fleet ---"));
@@ -80,12 +85,24 @@ class Battleship {
                 console.log("            -   (\\- |  \\ /  |  /)  -");
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
+
+                console.log( "Yeah ! Nice hit !" );
+
+                let winner = 0;
+                this.enemyFleet.forEach( ship => {
+                    if( ship.sunk )
+                        winner++;
+                });
+                if( this.enemyFleet.length == winner )
+                {
+                    console.log( "Congratulations!!! You Won!!!" );
+                    break;
+                }    
             }
             else{
+                console.log( "Miss" );
                 gameController.addMyMiss(position);
             }
-
-            console.log(isHit ? "Yeah ! Nice hit !" : "Miss");
 
             var computerPos = this.GetRandomPosition();
             var isHit = gameController.CheckIsHit(this.myFleet, computerPos);
@@ -106,6 +123,17 @@ class Battleship {
                 console.log("            -   (\\- |  \\ /  |  /)  -");
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
+
+                let loser = 0;
+                this.myFleet.forEach( ship => {
+                    if( ship.sunk )
+                        loser++;
+                });
+                if( this.myFleet.length == loser )
+                {
+                    console.log( "To Bad, you lost..." );
+                    break;
+                }    
             }
             else {
                 gameController.addEnemyMiss(computerPos);
@@ -194,10 +222,10 @@ class Battleship {
         this.enemyFleet[0].addPosition(new position(letters.B, 7));
         this.enemyFleet[0].addPosition(new position(letters.B, 8));
 
+        this.enemyFleet[1].addPosition(new position(letters.E, 5));
         this.enemyFleet[1].addPosition(new position(letters.E, 6));
         this.enemyFleet[1].addPosition(new position(letters.E, 7));
         this.enemyFleet[1].addPosition(new position(letters.E, 8));
-        this.enemyFleet[1].addPosition(new position(letters.E, 9));
 
         this.enemyFleet[2].addPosition(new position(letters.A, 3));
         this.enemyFleet[2].addPosition(new position(letters.B, 3));
