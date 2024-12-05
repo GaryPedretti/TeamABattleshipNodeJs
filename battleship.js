@@ -40,7 +40,7 @@ class Battleship {
     }
 
     StartGame() {
-        //console.clear();
+        console.clear();
         console.log("                  __");
         console.log("                 /  \\");
         console.log("           .-.  |    |");
@@ -53,7 +53,6 @@ class Battleship {
         console.log("    \"\"\"\"");
 
         do {
-            //console.clear();
 
             console.log(cliColor.magenta("--- Enemy Fleet ---"));
             gridView.printGridWithoutBoats(this.enemyFleet, gameController.myMisses);
@@ -100,7 +99,6 @@ class Battleship {
                 }    
             }
             else{
-                console.log( "Miss" );
                 gameController.addMyMiss(position);
             }
 

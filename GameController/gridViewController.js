@@ -53,8 +53,6 @@ class GridViewController {
             //Check for misses.
             if (missArray.length > 0) {
                 missArray.forEach( miss => {
-                    //console.log(`current: ${currentPosition.toString()}` );
-                    //console.log(`miss: ${miss.toString()}` );
                     if (currentPosition.equals(miss)) {
                         positionIndicator = cliColor.yellow("O");
                         return;
