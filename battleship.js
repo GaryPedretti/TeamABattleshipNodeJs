@@ -47,16 +47,16 @@ class Battleship {
 
     StartGame() {
         console.clear();
-        console.log("                  __");
-        console.log("                 /  \\");
-        console.log("           .-.  |    |");
-        console.log("   *    _.-'  \\  \\__/");
-        console.log("    \\.-'       \\");
-        console.log("   /          _/");
-        console.log("  |      _  /");
-        console.log("  |     /_\\'");
-        console.log("   \\    \\_/");
-        console.log("    \"\"\"\"");
+        console.log(cliColor.green("                  __"));
+        console.log(cliColor.green("                 /  \\"));
+        console.log(cliColor.green("           .-.  |    |"));
+        console.log(cliColor.green("   *    _.-'  \\  \\__/"));
+        console.log(cliColor.green("    \\.-'       \\"));
+        console.log(cliColor.green("   /          _/"));
+        console.log(cliColor.green("  |      _  /"));
+        console.log(cliColor.green("  |     /_\\'"));
+        console.log(cliColor.green("   \\    \\_/"));
+        console.log(cliColor.green("    \"\"\"\""));
 
         do {
             console.log();
